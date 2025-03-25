@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            background-color: #FFFFE0;
+            color: white;
+            display: grid;
+            place-items: center;
+            padding: 0;
+
+        }
+        h1{
+            color: black;
+            margin-bottom: 50px;
+        }
+        section {
+            background-color: #2F4F4F;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 200px;
+        }
+        #tempo{
+            font-size: 50px;
+        }
+        #resultado{
+            font-size: 50px;
+        }
+        #cps {
+            font-size: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contador de Cliques por Segundo</h1>
+    <section>
+
+        <p id="tempo">10</p>
+        <p id="resultado">0</p>
+        <p id="cps">CPS Médio: 0</p>
+        <button id="clickButton" onclick="aumentar()">Clique</button>
+        <button onclick="resetar()">Reiniciar</button>
+    </section>
+
+    <script>
+        let numero = 0;
+        let tempoRestante = 10; 
+        let intervaloTimer;
+        let cpsMedio = 0; 
+        let totalCliques = 0; 
+        let contadorIniciado = false;
+
+        function atualizarTempo() {
+            const pTempo = document.querySelector("#tempo");
+            pTempo.innerText = `${tempoRestante}`;
+
+
+            if (tempoRestante <= 0) {
+                calcularCPS();
+                reiniciarContador();
+            } else {
+                tempoRestante--;
+            }
+        }
+
+        function aumentar() {
+            if (!contadorIniciado) {
+
+                contadorIniciado = true;
+                intervaloTimer = setInterval(atualizarTempo, 1000);
+            }
+            
+            numero++;
+            totalCliques++;
+            mostrarnatela();
+        }
+
+        function mostrarnatela() {
+            const pResultado = document.querySelector("#resultado");
+            pResultado.innerText = `${numero}`;
+        }
+
+        function calcularCPS() {
+            cpsMedio = totalCliques / 10;
+            const pCPS = document.querySelector("#cps");
+            pCPS.innerText = `CPS Médio: ${cpsMedio.toFixed(2)}`;
+        }
+
+
+        function reiniciarContador() {
+            clearInterval(intervaloTimer); 
+            totalCliques = 0; 
+            numero = 0; 
+            tempoRestante = 10;
+            mostrarnatela();
+            const pTempo = document.querySelector("#tempo");
+            pTempo.innerText = `${tempoRestante}`;
+            contadorIniciado = false;
+
+        }
+
+        function resetar() {
+            reiniciarContador();
+        }
+    </script>
+
+</body>
+</html>
+
